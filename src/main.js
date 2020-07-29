@@ -377,20 +377,20 @@ const render = (container, template, position) => {
 }
 
 const mainElement = document.querySelector(`.main`);
-const mainSectionElement = mainElement.querySelector('.main__control');
+const mainSectionElement = mainElement.querySelector(`.main__control`);
 
-render(mainSectionElement, createMenuTempate(), 'beforeend');
-render(mainElement, createFilterTemplate(), 'beforeend');
-render(mainElement, createBoardTemplate(), 'beforeend');
+render(mainSectionElement, createMenuTempate(), `beforeend`);
+render(mainElement, createFilterTemplate(), `beforeend`);
+render(mainElement, createBoardTemplate(), `beforeend`);
 
-const boardElement = document.querySelector('.board');
-const taskListElement = document.querySelector('.board__tasks');
+const boardElement = document.querySelector(`.board`);
+const taskListElement = document.querySelector(`.board__tasks`);
 
-render(boardElement, createSortTemplate(), 'afterbegin');
+render(boardElement, createSortTemplate(), `afterbegin`);
 
-render(taskListElement, createTaskEditTemplate(), 'beforeend');
+render(taskListElement, createTaskEditTemplate(), `beforeend`);
 
 for (let i = 0; i < TASKS_COUNT; i++)
-    render(taskListElement, createTaskTemplate(), 'beforeend');
+    render(taskListElement, createTaskTemplate(), `beforeend`);
 
-render(boardElement, createLoadMoreTemplate(), 'beforeend');
+render(boardElement, createLoadMoreTemplate(), `beforeend`);
