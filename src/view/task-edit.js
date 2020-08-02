@@ -197,5 +197,5 @@ export const createTaskEditTemplate = () => {
         </div>
       </form>
     </article>`
-  )
-}
+  );
+};
