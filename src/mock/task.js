@@ -71,7 +71,7 @@ const generateColor = () => {
   return colors[randomIndex];
 };
 
-const generateRandomTask = () => {
+export const generateRandomTask = () => {
   const dueDate = generateDate();
   const repeatingDays = dueDate === null
     ? generateRepeatingDays()
