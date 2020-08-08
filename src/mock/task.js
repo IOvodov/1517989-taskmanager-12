@@ -1,3 +1,13 @@
+const defaultRepeatingDays = {
+  mo: false,
+  tu: false,
+  we: false,
+  th: false,
+  fr: false,
+  sa: false,
+  su: false
+};
+
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -17,21 +27,62 @@ const generateDescription = () => {
   return descriptions[randomIndex];
 };
 
+const generateDate = () => {
+  const isDate = Boolean(getRandomInteger(0, 1));
+
+  if (!isDate) {
+    return null;
+  }
+
+  const maxDaysGap = 7;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const currentDate = new Date();
+
+  currentDate.setHours(23, 59, 59, 999);
+
+  currentDate.setDate(currentDate.getDate() + daysGap);
+
+  return new Date(currentDate);
+};
+
+const generateRepeatingDays = () => {
+  return {
+    mo: Boolean(getRandomInteger(0, 1)),
+    tu: false,
+    we: Boolean(getRandomInteger(0, 1)),
+    th: false,
+    fr: Boolean(getRandomInteger(0, 1)),
+    sa: false,
+    su: false
+  };
+};
+
+const generateColor = () => {
+  const colors = [
+    'black',
+    'yellow',
+    'blue',
+    'green',
+    'pink'
+  ];
+
+  const randomIndex = getRandomInteger(0, colors.length - 1);
+
+  return colors[randomIndex];
+};
+
 const generateRandomTask = () => {
+  const dueDate = generateDate();
+  const repeatingDays = dueDate === null
+    ? generateRepeatingDays()
+    : defaultRepeatingDays;
+
   return {
     description: generateDescription(),
-    dueDate: null,
-    repeatingDays: {
-      mo: false,
-      tu: false,
-      we: false,
-      th: false,
-      fr: false,
-      sa: false,
-      su: false
-    },
-    color: `black`,
-    isFavorite: false,
-    isArchive: false
+    dueDate,
+    repeatingDays,
+    color: generateColor(),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+    isArchive: Boolean(getRandomInteger(0, 1))
   };
 };
