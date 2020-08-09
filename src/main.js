@@ -6,17 +6,19 @@ import {createTaskEditTemplate} from "./view/task-edit.js";
 import {createTaskTemplate} from "./view/task.js";
 import {createLoadMoreButtonTemplate} from "./view/load-more-button.js";
 import {generateRandomTask} from "./mock/task.js";
-import {render} from "./utils.js"
+import {generateTasksFilter} from "./mock/filter.js";
+import {render} from "./utils.js";
 
-const TASKS_COUNT = 25;
+const TASKS_COUNT = 8;
 
 const tasks = new Array(TASKS_COUNT).fill().map(generateRandomTask);
+const tasksFilter = generateTasksFilter(tasks);
 
 const mainElement = document.querySelector(`.main`);
 const mainSectionElement = mainElement.querySelector(`.main__control`);
 
 render(mainSectionElement, createMenuTempate(), `beforeend`);
-render(mainElement, createFilterTemplate(), `beforeend`);
+render(mainElement, createFilterTemplate(tasksFilter), `beforeend`);
 render(mainElement, createBoardTemplate(), `beforeend`);
 
 const boardElement = document.querySelector(`.board`);
