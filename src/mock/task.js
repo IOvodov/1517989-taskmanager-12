@@ -1,12 +1,4 @@
-const defaultRepeatingDays = {
-  mo: false,
-  tu: false,
-  we: false,
-  th: false,
-  fr: false,
-  sa: false,
-  su: false
-};
+import {DEFAULT_REPEATING_DAYS,  DESCRIPTIONS, COLORS} from '../const.js';
 
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -16,15 +8,9 @@ const getRandomInteger = (a = 0, b = 1) => {
 };
 
 const generateDescription = () => {
-  const descriptions = [
-    `Изучить теорию`,
-    `Сделать домашку`,
-    `Пройти интенсив на соточку`
-  ];
+  const randomIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
 
-  const randomIndex = getRandomInteger(0, descriptions.length - 1);
-
-  return descriptions[randomIndex];
+  return DESCRIPTIONS[randomIndex];
 };
 
 const generateDate = () => {
@@ -58,24 +44,16 @@ const generateRepeatingDays = () => {
 };
 
 const generateColor = () => {
-  const colors = [
-    'black',
-    'yellow',
-    'blue',
-    'green',
-    'pink'
-  ];
+  const randomIndex = getRandomInteger(0, COLORS.length - 1);
 
-  const randomIndex = getRandomInteger(0, colors.length - 1);
-
-  return colors[randomIndex];
+  return COLORS[randomIndex];
 };
 
 export const generateRandomTask = () => {
   const dueDate = generateDate();
   const repeatingDays = dueDate === null
     ? generateRepeatingDays()
-    : defaultRepeatingDays;
+    : DEFAULT_REPEATING_DAYS;
 
   return {
     description: generateDescription(),
