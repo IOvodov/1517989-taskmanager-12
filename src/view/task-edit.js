@@ -1,17 +1,5 @@
-import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js'
-
-const isExpired = (dueDate) => {
-  if (dueDate === null)
-    return false;
-
-  const currentDate = new Date().setHours(23, 59, 59, 999);
-
-  return currentDate > dueDate.getTime();
-};
-
-const isRepeating = (repeatingDays) => {
-  return Object.values(repeatingDays).some(Boolean);
-};
+import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js';
+import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils.js";
 
 const createDateTemplate = (dueDate) => {
   return (
@@ -26,7 +14,7 @@ const createDateTemplate = (dueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})}"
+          value="${localizeDueDate(dueDate)}"
         />
       </label>
     </fieldset>` : ``}
@@ -37,10 +25,10 @@ const createDateTemplate = (dueDate) => {
 const createRepeatingDaysTemplate = (repeatingDays) => {
   return (
     `<button class="card__repeat-toggle" type="button">
-      repeat:<span class="card__repeat-status">${isRepeating(repeatingDays) ? `yes` : `no`}</span>
+      repeat:<span class="card__repeat-status">${isTaskRepeating(repeatingDays) ? `yes` : `no`}</span>
     </button>
 
-    ${isRepeating(repeatingDays) ? `<fieldset class="card__repeat-days">
+    ${isTaskRepeating(repeatingDays) ? `<fieldset class="card__repeat-days">
       <div class="card__repeat-days-inner">
         ${Object.entries(repeatingDays).map(([day, repeat]) => `<input
           class="visually-hidden card__repeat-day-input"
@@ -83,11 +71,11 @@ export const createTaskEditTemplate = (task = {}) => {
     repeatingDays = DEFAULT_REPEATING_DAYS
   } = task;
 
-  const deadlineClassName = isExpired(dueDate)
+  const deadlineClassName = isTaskExpired(dueDate)
     ? `card--deadline`
     : ``;
 
-  const repeatingClassName = isRepeating(repeatingDays)
+  const repeatingClassName = isTaskRepeating(repeatingDays)
     ? `card-repeat`
     : ``;
 

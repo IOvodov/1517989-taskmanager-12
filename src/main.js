@@ -6,14 +6,11 @@ import {createTaskEditTemplate} from "./view/task-edit.js";
 import {createTaskTemplate} from "./view/task.js";
 import {createLoadMoreButtonTemplate} from "./view/load-more-button.js";
 import {generateRandomTask} from "./mock/task.js";
+import {render} from "./utils.js"
 
 const TASKS_COUNT = 25;
 
 const tasks = new Array(TASKS_COUNT).fill().map(generateRandomTask);
-
-const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
-};
 
 const mainElement = document.querySelector(`.main`);
 const mainSectionElement = mainElement.querySelector(`.main__control`);
