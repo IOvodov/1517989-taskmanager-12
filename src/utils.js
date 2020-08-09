@@ -5,13 +5,30 @@ export const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
+const getCurrentDate = () => {
+  const currentDate = new Date();
+  currentDate.setHours(23, 59, 59, 999);
+
+  return new Date(currentDate);
+};
+
+export const isTaskExpiringToday = (dueDate) => {
+  if (dueDate === null) {
+    return false;
+  }
+
+  const currentDate = getCurrentDate();
+
+  return currentDate.getTime() === dueDate.getTime();
+};
+
 export const isTaskExpired = (dueDate) => {
   if (dueDate === null)
     return false;
 
-  let currentDate = new Date().setHours(23, 59, 59, 999);
+  let currentDate = getCurrentDate();
 
-  return currentDate > dueDate.getTime();
+  return currentDate.getTime() > dueDate.getTime();
 };
 
 export const isTaskRepeating = (repeatingDays) => {
