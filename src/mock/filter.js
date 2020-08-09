@@ -1,3 +1,5 @@
+import {isTaskExpired, isTaskExpiringToday, isTaskRepeating} from "../utils.js";
+
 const taskToFilterMap = {
   all: (tasks) => tasks.filter((task) => !task.isArchive).length,
   overdue: (tasks) => tasks.filter((task) => !task.isArchive && isTaskExpired(task.dueDate)).length,
@@ -13,5 +15,5 @@ export const generateTasksFilter = (tasks) => {
       title: filterName,
       count: tasksCount(tasks)
     };
-  })
+  });
 };
