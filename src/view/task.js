@@ -2,11 +2,9 @@ const isExpired = (dueDate) => {
   if (dueDate === null)
     return false;
 
-  let currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
+  let currentDate = new Date().setHours(23, 59, 59, 999);
 
-  return currentDate.getTime() > dueDate.getTime();
+  return currentDate > dueDate.getTime();
 };
 
 const isRepeating = (repeatingDays) => {
