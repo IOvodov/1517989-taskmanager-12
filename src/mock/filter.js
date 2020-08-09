@@ -17,26 +17,7 @@ const taskToFilterMap = {
   archive: (tasks) => tasks.filter((task) => task.isArchive).length,
 };
 
-
-const taskToFilters = {
-  all: (tasks) => tasks.filter((task) => !task.isArchive),
-  overdue: (tasks) => tasks
-    .filter((task) => !task.isArchive)
-    .filter((task) => isTaskExpired(task.dueDate)),
-  today: (tasks) => tasks
-    .filter((task) => !task.isArchive)
-    .filter((task) => isTaskExpiringToday(task.dueDate)),
-  favorites: (tasks) => tasks
-    .filter((task) => !task.isArchive)
-    .filter((task) => task.isFavorite),
-  repeating: (tasks) => tasks
-    .filter((task) => !task.isArchive)
-    .filter((task) => isTaskRepeating(task.repeatingDays)),
-  archive: (tasks) => tasks.filter((task) => task.isArchive),
-};
-
 export const generateTasksFilter = (tasks) => {
-  console.log(tasks);
   return Object.entries(taskToFilterMap).map(([filterName, tasksCount]) => {
     return {
       title: filterName,
