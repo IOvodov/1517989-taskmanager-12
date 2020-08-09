@@ -23,8 +23,9 @@ export const isTaskExpiringToday = (dueDate) => {
 };
 
 export const isTaskExpired = (dueDate) => {
-  if (dueDate === null)
+  if (dueDate === null) {
     return false;
+  }
 
   let currentDate = getCurrentDate();
 
@@ -36,7 +37,7 @@ export const isTaskRepeating = (repeatingDays) => {
 };
 
 export const localizeDueDate = (dueDate) => {
-  return dueDate.toLocaleString(`en-En`, { day: `numeric`, month: `long` });
+  return dueDate.toLocaleString(`en-En`, {day: `numeric`, month: `long`});
 };
 
 export const render = (container, template, position) => {

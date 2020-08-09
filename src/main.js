@@ -51,5 +51,5 @@ if (tasks.length > TASKS_COUNT_PER_STEP) {
     if (renderedTaskCount >= tasks.length) {
       loadMoreButton.remove();
     }
-  })
+  });
 }

@@ -9,7 +9,7 @@ export const createTaskTemplate = (task) => {
 
   const deadlineClassName = isTaskExpired(dueDate)
     ? `card--deadline`
-    :  ``;
+    : ``;
 
   const repeatingClassName = isTaskRepeating(repeatingDays)
     ? `card--repeat`

@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {DEFAULT_REPEATING_DAYS,  DESCRIPTIONS, COLORS} from '../const.js';
+import {DEFAULT_REPEATING_DAYS, DESCRIPTIONS, COLORS} from '../const.js';
 
 const generateDescription = () => {
   const randomIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
