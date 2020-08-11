@@ -1,6 +1,6 @@
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+export const getRandomInteger = (from = 0, to = 1) => {
+  const lower = Math.ceil(Math.min(from, to));
+  const upper = Math.floor(Math.max(from, to));
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
@@ -13,7 +13,7 @@ const getCurrentDate = () => {
 };
 
 export const isTaskExpiringToday = (dueDate) => {
-  if (dueDate === null) {
+  if (!dueDate) {
     return false;
   }
 
@@ -23,7 +23,7 @@ export const isTaskExpiringToday = (dueDate) => {
 };
 
 export const isTaskExpired = (dueDate) => {
-  if (dueDate === null) {
+  if (!dueDate) {
     return false;
   }
 
@@ -32,13 +32,9 @@ export const isTaskExpired = (dueDate) => {
   return currentDate.getTime() > dueDate.getTime();
 };
 
-export const isTaskRepeating = (repeatingDays) => {
-  return Object.values(repeatingDays).some(Boolean);
-};
+export const isTaskRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
-export const localizeDueDate = (dueDate) => {
-  return dueDate.toLocaleString(`en-En`, {day: `numeric`, month: `long`});
-};
+export const localizeDueDate = (dueDate) => dueDate.toLocaleString(`en-En`, {day: `numeric`, month: `long`});
 
 export const render = (container, template, position) => {
   container.insertAdjacentHTML(position, template);

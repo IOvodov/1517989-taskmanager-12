@@ -1,12 +1,6 @@
 import {getRandomInteger} from '../utils.js';
 import {DEFAULT_REPEATING_DAYS, DESCRIPTIONS, COLORS} from '../const.js';
 
-const generateDescription = () => {
-  const randomIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
-
-  return DESCRIPTIONS[randomIndex];
-};
-
 const generateDate = () => {
   const isDate = Boolean(getRandomInteger(0, 1));
 
@@ -25,6 +19,10 @@ const generateDate = () => {
   return new Date(currentDate);
 };
 
+const getRandomElement = (elements) => {
+  return elements[getRandomInteger(0, elements.length - 1)];
+};
+
 const generateRepeatingDays = () => {
   return {
     mo: Boolean(getRandomInteger(0, 1)),
@@ -37,23 +35,15 @@ const generateRepeatingDays = () => {
   };
 };
 
-const generateColor = () => {
-  const randomIndex = getRandomInteger(0, COLORS.length - 1);
-
-  return COLORS[randomIndex];
-};
-
 export const generateRandomTask = () => {
   const dueDate = generateDate();
-  const repeatingDays = dueDate === null
-    ? generateRepeatingDays()
-    : DEFAULT_REPEATING_DAYS;
+  const repeatingDays = dueDate ? generateRepeatingDays() : DEFAULT_REPEATING_DAYS;
 
   return {
-    description: generateDescription(),
+    description: getRandomElement(DESCRIPTIONS),
     dueDate,
     repeatingDays,
-    color: generateColor(),
+    color: getRandomElement(COLORS),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isArchive: Boolean(getRandomInteger(0, 1))
   };
