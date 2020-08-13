@@ -1,5 +1,7 @@
+import {createElement} from "../utils.js";
+
 const createFilterItemTemplate = (item, isChecked) => {
-  const {title, count} = item;
+  const { title, count } = item;
 
   return (
     `<input
@@ -16,14 +18,33 @@ const createFilterItemTemplate = (item, isChecked) => {
   );
 };
 
-export const createFilterTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems
-    .map((filterItem, index) => createFilterItemTemplate(filterItem, index === 0))
-    .join(``);
+export default class Filter {
+  constructor(filterItems) {
+    this._element = null;
+    this._filterItems = filterItems;
+  }
 
-  return (
-    `<section class="main__filter filter container">
+  get Template() {
+    const filterItemsTemplate = this._filterItems
+      .map((filterItem, index) => createFilterItemTemplate(filterItem, index === 0))
+      .join(``);
+
+    return (
+      `<section class="main__filter filter container">
       ${filterItemsTemplate}
     </section>`
-  );
-};
+    );
+  }
+
+  get Element() {
+    if (!this._element)
+      this._element = createElement(this.Template);
+
+    return this._element;
+  }
+
+
+  removeElement() {
+    this._element = null;
+  }
+}

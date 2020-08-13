@@ -1,5 +1,12 @@
 import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js';
-import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils.js";
+import {isTaskExpired, isTaskRepeating, localizeDueDate, createElement} from "../utils.js";
+
+const DEFAULT_TASK_BLANK = {
+  color: COLORS[0],
+  description: ``,
+  dueDate: null,
+  repeatingDays: DEFAULT_REPEATING_DAYS
+};
 
 const createDateTemplate = (dueDate) => {
   return (
@@ -63,13 +70,8 @@ const createColorsTemplate = (currentColor) => {
   >`).join(``);
 };
 
-export const createTaskEditTemplate = (task = {}) => {
-  const {
-    color = `black`,
-    description = ``,
-    dueDate = null,
-    repeatingDays = DEFAULT_REPEATING_DAYS
-  } = task;
+const createTaskEditTemplate = (task) => {
+  const {dueDate, repeatingDays, color, description} = task;
 
   const deadlineClassName = isTaskExpired(dueDate)
     ? `card--deadline`
@@ -131,3 +133,26 @@ export const createTaskEditTemplate = (task = {}) => {
     </article>`
   );
 };
+
+
+export default class TaskEdit {
+  constructor(task) {
+    this._element = null;
+    this._task = task || DEFAULT_TASK_BLANK;
+  }
+
+  get Template() {
+    return createTaskEditTemplate(this._task);
+  }
+
+  get Element() {
+    if (!this._element)
+      this._element = createElement(this.Template);
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
