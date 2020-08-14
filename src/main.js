@@ -6,9 +6,9 @@ import TaskEdit from "./view/task-edit.js";
 import Task from "./view/task.js";
 import TaskList from "./view/task-list.js";
 import LoadMoreButton from "./view/load-more-button.js";
-import { generateRandomTask } from "./mock/task.js";
-import { generateTasksFilter } from "./mock/filter.js";
-import { render, RenderPosition } from "./utils.js";
+import {generateRandomTask} from "./mock/task.js";
+import {generateTasksFilter} from "./mock/filter.js";
+import {render, RenderPosition} from "./utils.js";
 
 const TASKS_COUNT = 25;
 const TASKS_COUNT_PER_STEP = 8;
@@ -22,11 +22,11 @@ const renderTask = (taskListElement, task) => {
 
   const replaceCardToEditForm = () => {
     taskListElement.replaceChild(taskEditComponent.Element, taskComponent.Element);
-  }
+  };
 
   const replaceEditFormToCard = () => {
     taskListElement.replaceChild(taskComponent.Element, taskEditComponent.Element);
-  }
+  };
 
   taskComponent.Element.querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
     replaceCardToEditForm();
@@ -35,7 +35,7 @@ const renderTask = (taskListElement, task) => {
   taskEditComponent.Element.querySelector(`.card__form`).addEventListener(`submit`, (event) => {
     event.preventDefault();
     replaceEditFormToCard();
-  })
+  });
 
   render(taskListElement, taskComponent.Element, RenderPosition.BEFOREEND);
 };

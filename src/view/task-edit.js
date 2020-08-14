@@ -146,8 +146,9 @@ export default class TaskEdit {
   }
 
   get Element() {
-    if (!this._element)
+    if (!this._element) {
       this._element = createElement(this.Template);
+    }
 
     return this._element;
   }

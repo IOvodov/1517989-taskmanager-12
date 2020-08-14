@@ -19,14 +19,15 @@ export default class Filter {
   }
 
   get Element() {
-    if (!this._element)
+    if (!this._element) {
       this._element = createElement(this.Template);
+    }
 
     return this._element;
   }
 
   createFilterItemTemplate(item, isChecked) {
-    const { title, count } = item;
+    const {title, count} = item;
 
     return (
       `<input
@@ -41,7 +42,7 @@ export default class Filter {
         ${title} <span class="filter__${title}-count">${count}</span></label
       >`
     );
-  };
+  }
 
   removeElement() {
     this._element = null;
