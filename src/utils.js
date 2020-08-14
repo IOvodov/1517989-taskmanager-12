@@ -3,7 +3,7 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 };
 
-export const renderElement = (container, element, place) => {
+export const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -58,7 +58,3 @@ export const isTaskExpired = (dueDate) => {
 export const isTaskRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
 export const localizeDueDate = (dueDate) => dueDate.toLocaleString(`en-En`, {day: `numeric`, month: `long`});
-
-export const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
-};
