@@ -76,13 +76,13 @@ export default class Task {
     this._task = task;
   }
 
-  get Template() {
+  get template() {
     return createTaskTemplate(this._task);
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;

@@ -21,46 +21,46 @@ const renderTask = (taskListElement, task) => {
   const taskEditComponent = new TaskEdit(task);
 
   const replaceCardToEditForm = () => {
-    taskListElement.replaceChild(taskEditComponent.Element, taskComponent.Element);
+    taskListElement.replaceChild(taskEditComponent.element, taskComponent.element);
   };
 
   const replaceEditFormToCard = () => {
-    taskListElement.replaceChild(taskComponent.Element, taskEditComponent.Element);
+    taskListElement.replaceChild(taskComponent.element, taskEditComponent.element);
   };
 
-  taskComponent.Element.querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
+  taskComponent.element.querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
     replaceCardToEditForm();
   });
 
-  taskEditComponent.Element.querySelector(`.card__form`).addEventListener(`submit`, (event) => {
+  taskEditComponent.element.querySelector(`.card__form`).addEventListener(`submit`, (event) => {
     event.preventDefault();
     replaceEditFormToCard();
   });
 
-  render(taskListElement, taskComponent.Element, RenderPosition.BEFOREEND);
+  render(taskListElement, taskComponent.element, RenderPosition.BEFOREEND);
 };
 
 const mainElement = document.querySelector(`.main`);
 const mainSectionElement = mainElement.querySelector(`.main__control`);
 
-render(mainSectionElement, new SiteMenu().Element, RenderPosition.BEFOREEND);
-render(mainElement, new Filter(tasksFilter).Element, RenderPosition.BEFOREEND);
+render(mainSectionElement, new SiteMenu().element, RenderPosition.BEFOREEND);
+render(mainElement, new Filter(tasksFilter).element, RenderPosition.BEFOREEND);
 
 const boardComponent = new Board();
-render(mainElement, boardComponent.Element, RenderPosition.BEFOREEND);
-render(boardComponent.Element, new Sort().Element, RenderPosition.AFTERBEGIN);
+render(mainElement, boardComponent.element, RenderPosition.BEFOREEND);
+render(boardComponent.element, new Sort().element, RenderPosition.AFTERBEGIN);
 
 const taskListComponent = new TaskList();
-render(boardComponent.Element, taskListComponent.Element, RenderPosition.BEFOREEND);
+render(boardComponent.element, taskListComponent.element, RenderPosition.BEFOREEND);
 
 for (let i = 0; i < Math.min(tasks.length, TASKS_COUNT_PER_STEP); i++) {
-  renderTask(taskListComponent.Element, tasks[i]);
+  renderTask(taskListComponent.element, tasks[i]);
 }
 
 if (tasks.length > TASKS_COUNT_PER_STEP) {
   let renderedTaskCount = TASKS_COUNT_PER_STEP;
 
-  render(boardComponent.Element, new LoadMoreButton().Element, RenderPosition.BEFOREEND);
+  render(boardComponent.element, new LoadMoreButton().element, RenderPosition.BEFOREEND);
 
   const loadMoreButton = document.querySelector(`.load-more`);
 
@@ -68,7 +68,7 @@ if (tasks.length > TASKS_COUNT_PER_STEP) {
     e.preventDefault();
     tasks
       .slice(renderedTaskCount, renderedTaskCount + TASKS_COUNT_PER_STEP)
-      .forEach((task) => renderTask(taskListComponent.Element, task));
+      .forEach((task) => renderTask(taskListComponent.element, task));
 
     renderedTaskCount += TASKS_COUNT_PER_STEP;
 

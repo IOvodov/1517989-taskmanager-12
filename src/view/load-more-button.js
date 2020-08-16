@@ -5,15 +5,15 @@ export default class LoadMoreButton {
     this._element = null;
   }
 
-  get Template() {
+  get template() {
     return (
       `<button class="load-more" type="button">load more</button>`
     );
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;

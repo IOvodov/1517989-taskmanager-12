@@ -5,15 +5,15 @@ export default class TaskList {
     this._element = null;
   }
 
-  get Template() {
+  get template() {
     return (
       `<div class="board__tasks"></div>`
     );
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;

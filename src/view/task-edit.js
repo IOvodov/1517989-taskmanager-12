@@ -141,13 +141,13 @@ export default class TaskEdit {
     this._task = task || DEFAULT_TASK_BLANK;
   }
 
-  get Template() {
+  get template() {
     return createTaskEditTemplate(this._task);
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;

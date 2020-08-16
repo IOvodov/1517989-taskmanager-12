@@ -6,7 +6,7 @@ export default class Filter {
     this._filterItems = filterItems;
   }
 
-  get Template() {
+  get template() {
     const filterItemsTemplate = this._filterItems
       .map((filterItem, index) => this.createFilterItemTemplate(filterItem, index === 0))
       .join(``);
@@ -18,9 +18,9 @@ export default class Filter {
     );
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;

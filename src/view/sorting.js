@@ -5,7 +5,7 @@ export default class Sort {
     this._element = null;
   }
 
-  get Template() {
+  get template() {
     return (
       `<div class="board__filter-list">
         <a href="#" class="board__filter" data-sort-type="default">SORT BY DEFAULT</a>
@@ -15,9 +15,9 @@ export default class Sort {
     );
   }
 
-  get Element() {
+  get element() {
     if (!this._element) {
-      this._element = createElement(this.Template);
+      this._element = createElement(this.template);
     }
 
     return this._element;
