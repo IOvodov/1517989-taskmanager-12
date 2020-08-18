@@ -1,3 +1,26 @@
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
 export const getRandomInteger = (from = 0, to = 1) => {
   const lower = Math.ceil(Math.min(from, to));
   const upper = Math.floor(Math.max(from, to));
@@ -35,7 +58,3 @@ export const isTaskExpired = (dueDate) => {
 export const isTaskRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
 export const localizeDueDate = (dueDate) => dueDate.toLocaleString(`en-En`, {day: `numeric`, month: `long`});
-
-export const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
-};
