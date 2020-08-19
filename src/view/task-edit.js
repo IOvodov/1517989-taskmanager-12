@@ -1,5 +1,6 @@
 import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js';
-import {isTaskExpired, isTaskRepeating, localizeDueDate, createElement} from "../utils.js";
+import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils.js";
+import Abstract from './abstract.js';
 
 const DEFAULT_TASK_BLANK = {
   color: COLORS[0],
@@ -135,25 +136,13 @@ const createTaskEditTemplate = (task) => {
 };
 
 
-export default class TaskEdit {
+export default class TaskEdit extends Abstract {
   constructor(task) {
-    this._element = null;
+    super();
     this._task = task || DEFAULT_TASK_BLANK;
   }
 
   get template() {
     return createTaskEditTemplate(this._task);
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
