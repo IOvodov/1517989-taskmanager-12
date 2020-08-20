@@ -8,7 +8,7 @@ import TaskList from "./view/task-list.js";
 import LoadMoreButton from "./view/load-more-button.js";
 import {generateRandomTask} from "./mock/task.js";
 import {generateTasksFilter} from "./mock/filter.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition} from "./utils/render.js";
 
 const TASKS_COUNT = 25;
 const TASKS_COUNT_PER_STEP = 8;

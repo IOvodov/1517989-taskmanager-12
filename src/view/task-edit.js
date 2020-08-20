@@ -1,5 +1,5 @@
 import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js';
-import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils.js";
+import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils/task.js";
 import Abstract from './abstract.js';
 
 const DEFAULT_TASK_BLANK = {
