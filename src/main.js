@@ -28,12 +28,11 @@ const renderTask = (taskListElement, task) => {
     taskListElement.replaceChild(taskComponent.element, taskEditComponent.element);
   };
 
-  taskComponent.element.querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
+  taskComponent.setEditClickHandler(() => {
     replaceCardToEditForm();
   });
 
-  taskEditComponent.element.querySelector(`.card__form`).addEventListener(`submit`, (event) => {
-    event.preventDefault();
+  taskEditComponent.setFormSubmitHandler(() => {
     replaceEditFormToCard();
   });
 
@@ -60,12 +59,11 @@ for (let i = 0; i < Math.min(tasks.length, TASKS_COUNT_PER_STEP); i++) {
 if (tasks.length > TASKS_COUNT_PER_STEP) {
   let renderedTaskCount = TASKS_COUNT_PER_STEP;
 
-  render(boardComponent.element, new LoadMoreButton().element, RenderPosition.BEFOREEND);
+  const loadMoreButtonComponent = new LoadMoreButton();
 
-  const loadMoreButton = document.querySelector(`.load-more`);
+  render(boardComponent.element, loadMoreButtonComponent.element, RenderPosition.BEFOREEND);
 
-  loadMoreButton.addEventListener(`click`, (e) => {
-    e.preventDefault();
+  loadMoreButtonComponent.setClickHandler(() => {
     tasks
       .slice(renderedTaskCount, renderedTaskCount + TASKS_COUNT_PER_STEP)
       .forEach((task) => renderTask(taskListComponent.element, task));
@@ -73,7 +71,8 @@ if (tasks.length > TASKS_COUNT_PER_STEP) {
     renderedTaskCount += TASKS_COUNT_PER_STEP;
 
     if (renderedTaskCount >= tasks.length) {
-      loadMoreButton.remove();
+      loadMoreButtonComponent.element.remove();
+      loadMoreButtonComponent.removeElement();
     }
   });
 }

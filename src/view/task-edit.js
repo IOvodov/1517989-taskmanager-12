@@ -140,9 +140,21 @@ export default class TaskEdit extends Abstract {
   constructor(task) {
     super();
     this._task = task || DEFAULT_TASK_BLANK;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   get template() {
     return createTaskEditTemplate(this._task);
+  }
+
+  _formSubmitHandler(event) {
+    event.preventDefault();
+    this._callback.submit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.submit = callback;
+    this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
