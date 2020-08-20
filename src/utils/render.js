@@ -16,10 +16,10 @@ export const render = (container, child, place) => {
 
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(child);
       break;
     case RenderPosition.BEFOREEND:
-      container.append(element);
+      container.append(child);
       break;
   }
 };
@@ -31,7 +31,7 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const replace = (oldChild, newChild) => {
+export const replace = (newChild, oldChild) => {
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.element;
   }
@@ -40,7 +40,7 @@ export const replace = (oldChild, newChild) => {
     newChild = newChild.element;
   }
 
-  const parent = oldChild.parent;
+  const parent = oldChild.parentElement;
 
   if (!parent || !oldChild || !newChild) {
     throw new Error(`Can't replace unexisting elements`);
