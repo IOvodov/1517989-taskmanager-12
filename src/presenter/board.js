@@ -33,7 +33,7 @@ export default class BoardPresenter {
   _renderBoard() {
     this._renderSort();
 
-    this._renderTasks(0, Math.min(this._boardTasks.length, TASKS_COUNT_PER_STEP))
+    this._renderTasks(0, Math.min(this._boardTasks.length, TASKS_COUNT_PER_STEP));
 
     if (this._boardTasks.length > TASKS_COUNT_PER_STEP) {
       this._renderLoadMoreButton();
