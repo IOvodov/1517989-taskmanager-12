@@ -1,10 +1,9 @@
 import Sort from "../view/sorting";
 import Board from "../view/board.js";
 import TaskList from "../view/task-list";
-import Task from "../view/task.js";
-import TaskEdit from "../view/task-edit.js";
 import LoadMoreButton from "../view/load-more-button";
-import {render, RenderPosition, replace, remove} from "../utils/render.js";
+import {render, RenderPosition, remove} from "../utils/render.js";
+import TaskPresenter from "./task";
 
 const TASKS_COUNT_PER_STEP = 8;
 
@@ -45,26 +44,8 @@ export default class BoardPresenter {
   }
 
   _renderTask(task) {
-    const taskComponent = new Task(task);
-    const taskEditComponent = new TaskEdit(task);
-
-    const replaceCardToEditForm = () => {
-      replace(taskEditComponent, taskComponent);
-    };
-
-    const replaceEditFormToCard = () => {
-      replace(taskComponent, taskEditComponent);
-    };
-
-    taskComponent.setEditClickHandler(() => {
-      replaceCardToEditForm();
-    });
-
-    taskEditComponent.setFormSubmitHandler(() => {
-      replaceEditFormToCard();
-    });
-
-    render(this._taskListComponent, taskComponent, RenderPosition.BEFOREEND);
+    const taskPresenter = new TaskPresenter(this._taskListComponent);
+    taskPresenter.init(task);
   }
 
   _renderTasks(from, to) {
