@@ -22,4 +22,10 @@ export default class LoadMoreButton extends AbstractView {
     this._callback.click = callback;
     this.element.addEventListener(`click`, this._clickHandler);
   }
+
+  removeElement() {
+    this._element.removeEventListener(`click`, this._clickHandler);
+
+    super.removeElement();
+  }
 }
