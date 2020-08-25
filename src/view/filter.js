@@ -1,6 +1,6 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
-export default class Filter extends Abstract {
+export default class Filter extends AbstractView {
   constructor(filterItems) {
     super();
     this._filterItems = filterItems;

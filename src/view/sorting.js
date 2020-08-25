@@ -1,6 +1,6 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
-export default class Sort extends Abstract {
+export default class Sort extends AbstractView {
   get template() {
     return (
       `<div class="board__filter-list">

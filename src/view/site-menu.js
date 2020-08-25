@@ -1,6 +1,6 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
-export default class SiteMenu extends Abstract {
+export default class SiteMenu extends AbstractView {
   get template() {
     return (
       `<section class="control__btn-wrap">
