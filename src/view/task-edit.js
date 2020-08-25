@@ -140,6 +140,7 @@ export default class TaskEdit extends AbstractView {
   constructor(task) {
     super();
     this._task = task || DEFAULT_TASK_BLANK;
+    this._formSubmitElement = this.element.querySelector(`.card__form`);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
@@ -155,11 +156,11 @@ export default class TaskEdit extends AbstractView {
 
   setFormSubmitHandler(callback) {
     this._handlers.submit = callback;
-    this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
+    this._formSubmitElement.addEventListener(`submit`, this._formSubmitHandler);
   }
 
   removeElement() {
-    this.element.querySelector(`.card__form`).removeEventListener(`submit`, this._formSubmitHandler);
+    this._formSubmitElement.removeEventListener(`submit`, this._formSubmitHandler);
 
     super.removeElement();
   }

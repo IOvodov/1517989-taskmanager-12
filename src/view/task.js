@@ -74,6 +74,7 @@ export default class Task extends AbstractView {
   constructor(task) {
     super();
     this._task = task;
+    this._editTaskElement = this.element.querySelector(`.card__btn--edit`);
 
     this._editClickHandler = this._editClickHandler.bind(this);
   }
@@ -89,11 +90,11 @@ export default class Task extends AbstractView {
 
   setEditClickHandler(callback) {
     this._handlers.editClick = callback;
-    this.element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._editClickHandler);
+    this._editTaskElement.addEventListener(`click`, this._editClickHandler);
   }
 
   removeElement() {
-    this.element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._editClickHandler);
+    this._editTaskElement.removeEventListener(`click`, this._editClickHandler);
 
     super.removeElement();
   }
