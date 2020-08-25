@@ -150,11 +150,11 @@ export default class TaskEdit extends AbstractView {
 
   _formSubmitHandler(event) {
     event.preventDefault();
-    this._callback.submit();
+    this._handlers.submit();
   }
 
   setFormSubmitHandler(callback) {
-    this._callback.submit = callback;
+    this._handlers.submit = callback;
     this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
