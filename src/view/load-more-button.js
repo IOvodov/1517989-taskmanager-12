@@ -24,7 +24,7 @@ export default class LoadMoreButton extends AbstractView {
   }
 
   removeElement() {
-    this._element.removeEventListener(`click`, this._clickHandler);
+    this.element.removeEventListener(`click`, this._clickHandler);
 
     super.removeElement();
   }

@@ -93,7 +93,7 @@ export default class Task extends AbstractView {
   }
 
   removeElement() {
-    this._element.removeEventListener(`click`, this._clickHandler);
+    this.element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._editClickHandler);
 
     super.removeElement();
   }
