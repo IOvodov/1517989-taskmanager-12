@@ -1,6 +1,8 @@
 import {getRandomInteger} from '../utils/common.js';
 import {DEFAULT_REPEATING_DAYS, DESCRIPTIONS, COLORS} from '../const.js';
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateDate = () => {
   const isDate = Boolean(getRandomInteger(0, 1));
 
@@ -40,6 +42,7 @@ export const generateRandomTask = () => {
   const repeatingDays = dueDate ? generateRepeatingDays() : DEFAULT_REPEATING_DAYS;
 
   return {
+    id: generateId(),
     description: getRandomElement(DESCRIPTIONS),
     dueDate,
     repeatingDays,
