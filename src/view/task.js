@@ -75,7 +75,12 @@ export default class Task extends Abstract {
     super();
     this._task = task;
 
+    this._favoriteBtn = this.element.querySelector(`.card__btn--favorites`);
+    this._archiveBtn = this.element.querySelector(`.card__btn--archive`);
+
     this._editClickHandler = this._editClickHandler.bind(this);
+    this._favoriteBtnClickHandler = this._favoriteBtnClickHandler.bind(this);
+    this._archiveBtnClickHandler = this._archiveBtnClickHandler.bind(this);
   }
 
   get template() {
@@ -90,5 +95,25 @@ export default class Task extends Abstract {
   setEditClickHandler(callback) {
     this._callback.editClick = callback;
     this.element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._editClickHandler);
+  }
+
+  _favoriteBtnClickHandler(event) {
+    event.preventDefault();
+    this._callback.favoriteBtnClick();
+  }
+
+  setFavoriteBtnClickHandler(callback) {
+    this._callback.favoriteBtnClick = callback;
+    this._favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
+  }
+
+  _archiveBtnClickHandler(event) {
+    event.preventDefault();
+    this._callback.archiveBtnClick();
+  }
+
+  setArchiveBtnClickHandler(callback) {
+    this._callback.archiveBtnClick = callback;
+    this._archiveBtn.addEventListener(`click`, this._archiveBtnClickHandler);
   }
 }

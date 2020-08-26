@@ -150,7 +150,7 @@ export default class TaskEdit extends Abstract {
 
   _formSubmitHandler(event) {
     event.preventDefault();
-    this._callback.submit();
+    this._callback.submit(this._task);
   }
 
   setFormSubmitHandler(callback) {
