@@ -16,6 +16,7 @@ export default class BoardPresenter {
     this._sortComponent = new Sort();
     this._taskListComponent = new TaskList();
     this._loadMoreButtonComponent = new LoadMoreButton();
+    this._taskPresenter = {};
 
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
