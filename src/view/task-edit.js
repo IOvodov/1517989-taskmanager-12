@@ -6,16 +6,18 @@ const DEFAULT_TASK_BLANK = {
   color: COLORS[0],
   description: ``,
   dueDate: null,
-  repeatingDays: DEFAULT_REPEATING_DAYS
+  repeatingDays: DEFAULT_REPEATING_DAYS,
+  isFavorite: false,
+  isArchive: false
 };
 
-const createDateTemplate = (dueDate) => {
+const createDateTemplate = (dueDate, isDueDate) => {
   return (
     `<button class="card__date-deadline-toggle" type="button">
-      date: <span class="card__date-status">${dueDate === null ? `no` : `yes`}</span>
+      date: <span class="card__date-status">${isDueDate ? `yes` : `no`}</span>
     </button>
 
-    ${dueDate !== null ? `<fieldset class="card__date-deadline">
+    ${isDueDate ? `<fieldset class="card__date-deadline">
       <label class="card__input-deadline-wrap">
         <input
           class="card__date"
@@ -30,13 +32,13 @@ const createDateTemplate = (dueDate) => {
   );
 };
 
-const createRepeatingDaysTemplate = (repeatingDays) => {
+const createRepeatingDaysTemplate = (repeatingDays, isRepeatingDays) => {
   return (
     `<button class="card__repeat-toggle" type="button">
-      repeat:<span class="card__repeat-status">${isTaskRepeating(repeatingDays) ? `yes` : `no`}</span>
+      repeat:<span class="card__repeat-status">${isRepeatingDays ? `yes` : `no`}</span>
     </button>
 
-    ${isTaskRepeating(repeatingDays) ? `<fieldset class="card__repeat-days">
+    ${isRepeatingDays ? `<fieldset class="card__repeat-days">
       <div class="card__repeat-days-inner">
         ${Object.entries(repeatingDays).map(([day, repeat]) => `<input
           class="visually-hidden card__repeat-day-input"
@@ -71,20 +73,20 @@ const createColorsTemplate = (currentColor) => {
   >`).join(``);
 };
 
-const createTaskEditTemplate = (task) => {
-  const {dueDate, repeatingDays, color, description} = task;
+const createTaskEditTemplate = (data) => {
+  const {dueDate, repeatingDays, color, description, isDueDate, isRepeating} = data;
 
   const deadlineClassName = isTaskExpired(dueDate)
     ? `card--deadline`
     : ``;
 
-  const repeatingClassName = isTaskRepeating(repeatingDays)
+  const repeatingClassName = isRepeating
     ? `card-repeat`
     : ``;
 
-  const dateTemplate = createDateTemplate(dueDate);
+  const dateTemplate = createDateTemplate(dueDate, isDueDate);
 
-  const repeatingDaysTemplate = createRepeatingDaysTemplate(repeatingDays);
+  const repeatingDaysTemplate = createRepeatingDaysTemplate(repeatingDays, isRepeating);
 
   const colorsTemplate = createColorsTemplate(color);
 
@@ -137,24 +139,63 @@ const createTaskEditTemplate = (task) => {
 
 
 export default class TaskEdit extends Abstract {
-  constructor(task) {
+  constructor(task = DEFAULT_TASK_BLANK) {
     super();
-    this._task = task || DEFAULT_TASK_BLANK;
+    this._data = TaskEdit.parseTaskToData(task);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   get template() {
-    return createTaskEditTemplate(this._task);
+    return createTaskEditTemplate(this._data);
+  }
+
+  updateElement() {
+    let prevElement = this.element;
+    const parent = prevElement.parentElement;
+    this.removeElement();
+
+    const newElement = this.element;
+
+    parent.replaceChild(newElement, prevElement);
+    prevElement = null;
   }
 
   _formSubmitHandler(event) {
     event.preventDefault();
-    this._callback.submit(this._task);
+    this._callback.submit(TaskEdit.parseDataToTask(this._data));
   }
 
   setFormSubmitHandler(callback) {
     this._callback.submit = callback;
     this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  static parseTaskToData(task) {
+    return Object.assign(
+      {},
+      task,
+      {
+        isDueDate: !!task.dueDate,
+        isRepeating: isTaskRepeating(task.repeatingDays)
+      }
+    );
+  }
+
+  static parseDataToTask(data) {
+    data = Object.assign({}, data);
+
+    if (!data.isDueDate) {
+      data.dueDate = null;
+    }
+
+    if (!data.isRepeating) {
+      data.repeating = DEFAULT_REPEATING_DAYS;
+    }
+
+    delete data.isDueDate;
+    delete data.isRepeating;
+
+    return data;
   }
 }
