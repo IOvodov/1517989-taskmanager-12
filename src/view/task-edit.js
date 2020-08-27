@@ -161,6 +161,20 @@ export default class TaskEdit extends Abstract {
     prevElement = null;
   }
 
+  updateData(updatedData) {
+    if (!updatedData) {
+      return;
+    }
+
+    this._data = Object.assign(
+      {},
+      this._data,
+      updatedData
+    );
+
+    this.updateElement();
+  }
+
   _formSubmitHandler(event) {
     event.preventDefault();
     this._callback.submit(TaskEdit.parseDataToTask(this._data));
