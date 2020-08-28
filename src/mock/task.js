@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../utils.js';
+import {getRandomInteger} from '../utils/common.js';
 import {DEFAULT_REPEATING_DAYS, DESCRIPTIONS, COLORS} from '../const.js';
 
 const generateDate = () => {
