@@ -24,7 +24,7 @@ const createDateTemplate = (dueDate, isDueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${localizeDueDate(dueDate)}"
+          value="${dueDate ? localizeDueDate(dueDate) :  ``}"
         />
       </label>
     </fieldset>` : ``}
@@ -144,6 +144,10 @@ export default class TaskEdit extends Abstract {
     this._data = TaskEdit.parseTaskToData(task);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
+    this._repeatingDaysToggleHandler = this._repeatingDaysToggleHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   get template() {
@@ -159,6 +163,8 @@ export default class TaskEdit extends Abstract {
 
     parent.replaceChild(newElement, prevElement);
     prevElement = null;
+
+    this.restoreHandlers();
   }
 
   updateData(updatedData) {
@@ -185,6 +191,33 @@ export default class TaskEdit extends Abstract {
     this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
+  _dueDateToggleHandler(event) {
+    event.preventDefault();
+    this.updateData({
+      isDueDate: !this._data.isDueDate
+    });
+  }
+
+  _repeatingDaysToggleHandler(event) {
+    event.preventDefault();
+    this.updateData({
+      isRepeating: !this._data.isRepeating
+    });
+  }
+
+  _setInnerHandlers() {
+    const cardRepeatToggler = this.element.querySelector(`.card__repeat-toggle`);
+    const cardDeadlineToggler = this.element.querySelector(`.card__date-deadline-toggle`);
+
+    cardDeadlineToggler.addEventListener(`click`, this._dueDateToggleHandler);
+    cardRepeatToggler.addEventListener(`click`, this._repeatingDaysToggleHandler);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.submit);
+  }
+
   static parseTaskToData(task) {
     return Object.assign(
       {},
@@ -204,7 +237,7 @@ export default class TaskEdit extends Abstract {
     }
 
     if (!data.isRepeating) {
-      data.repeating = DEFAULT_REPEATING_DAYS;
+      data.repeatingDays = DEFAULT_REPEATING_DAYS;
     }
 
     delete data.isDueDate;
