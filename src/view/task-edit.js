@@ -90,6 +90,8 @@ const createTaskEditTemplate = (data) => {
 
   const colorsTemplate = createColorsTemplate(color);
 
+  const isSubmitDisabled = isRepeating && !isTaskRepeating(repeatingDays);
+
   return (
     `<article class="card card--edit card--${color} ${deadlineClassName} ${repeatingClassName}">
       <form class="card__form" method="get">
@@ -128,7 +130,7 @@ const createTaskEditTemplate = (data) => {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit">save</button>
+            <button class="card__save" type="submit" ${isSubmitDisabled ? 'disabled' : ``}>save</button>
             <button class="card__delete" type="button">delete</button>
           </div>
         </div>
@@ -146,6 +148,9 @@ export default class TaskEdit extends Abstract {
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
     this._repeatingDaysToggleHandler = this._repeatingDaysToggleHandler.bind(this);
+    this._repeatingChangeDayHandler = this._repeatingChangeDayHandler.bind(this);
+    this._descriptionInputHandler = this._descriptionInputHandler.bind(this);
+    this._colorChangeHandler = this._colorChangeHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -167,8 +172,12 @@ export default class TaskEdit extends Abstract {
     this.restoreHandlers();
   }
 
-  updateData(updatedData) {
+  updateData(updatedData, onlyUpdateData) {
     if (!updatedData) {
+      return;
+    }
+
+    if (onlyUpdateData) {
       return;
     }
 
@@ -194,23 +203,60 @@ export default class TaskEdit extends Abstract {
   _dueDateToggleHandler(event) {
     event.preventDefault();
     this.updateData({
-      isDueDate: !this._data.isDueDate
+      isDueDate: !this._data.isDueDate,
+      isRepeating: !this._data.isDueDate && false
     });
   }
 
   _repeatingDaysToggleHandler(event) {
     event.preventDefault();
     this.updateData({
-      isRepeating: !this._data.isRepeating
+      isRepeating: !this._data.isRepeating,
+      isDueDate: !this._data.isRepeating && false
+    });
+  }
+
+  _descriptionInputHandler(event) {
+    event.preventDefault();
+    this.updateData({
+      description: event.target.value
+    }, true);
+  }
+
+  _repeatingChangeDayHandler(event) {
+    event.preventDefault();
+    this.updateData({
+      repeatingDays: Object.assign(
+          {},
+          this._data.repeatingDays,
+          {[event.target.value]: event.target.checked}
+      )
+    });
+  }
+
+  _colorChangeHandler(event) {
+    event.preventDefault();
+    this.updateData({
+      color: event.target.value
     });
   }
 
   _setInnerHandlers() {
     const cardRepeatToggler = this.element.querySelector(`.card__repeat-toggle`);
     const cardDeadlineToggler = this.element.querySelector(`.card__date-deadline-toggle`);
+    const cardDescriptionInput = this.element.querySelector(`.card__text`);
+    const repeatDayElement = this.element.querySelector(`.card__repeat-days-inner`);
+    const colorElement = this.element.querySelector(`.card__colors-wrap`);
 
     cardDeadlineToggler.addEventListener(`click`, this._dueDateToggleHandler);
     cardRepeatToggler.addEventListener(`click`, this._repeatingDaysToggleHandler);
+    cardDescriptionInput.addEventListener(`input`, this._descriptionInputHandler);
+
+    if (this._data.isRepeating) {
+      repeatDayElement.addEventListener(`change`, this._repeatingChangeDayHandler);
+    }
+
+    colorElement.addEventListener(`change`, this._colorChangeHandler);
   }
 
   restoreHandlers() {
