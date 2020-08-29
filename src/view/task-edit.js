@@ -1,6 +1,6 @@
 import {COLORS, DEFAULT_REPEATING_DAYS} from '../const.js';
 import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils/task.js";
-import Abstract from './abstract.js';
+import SmartView from './smart.js';
 
 const DEFAULT_TASK_BLANK = {
   color: COLORS[0],
@@ -29,49 +29,49 @@ const createDateTemplate = (dueDate, isDueDate) => {
       </label>
     </fieldset>` : ``}
     `
-  );
-};
+    );
+  };
 
-const createRepeatingDaysTemplate = (repeatingDays, isRepeatingDays) => {
-  return (
-    `<button class="card__repeat-toggle" type="button">
-      repeat:<span class="card__repeat-status">${isRepeatingDays ? `yes` : `no`}</span>
-    </button>
+  const createRepeatingDaysTemplate = (repeatingDays, isRepeatingDays) => {
+    return (
+      `<button class="card__repeat-toggle" type="button">
+        repeat:<span class="card__repeat-status">${isRepeatingDays ? `yes` : `no`}</span>
+      </button>
 
-    ${isRepeatingDays ? `<fieldset class="card__repeat-days">
-      <div class="card__repeat-days-inner">
-        ${Object.entries(repeatingDays).map(([day, repeat]) => `<input
-          class="visually-hidden card__repeat-day-input"
-          type="checkbox"
-          id="repeat-${day}"
-          name="repeat"
-          value="${day}"
-          ${repeat ? `checked` : ``}
-        />
-        <label class="card__repeat-day" for="repeat-${day}"
-        >${day}</label
-        >`).join(``)}
-      </div>
-    </fieldset>` : ``}
-    `
-  );
-};
+      ${isRepeatingDays ? `<fieldset class="card__repeat-days">
+        <div class="card__repeat-days-inner">
+          ${Object.entries(repeatingDays).map(([day, repeat]) => `<input
+            class="visually-hidden card__repeat-day-input"
+            type="checkbox"
+            id="repeat-${day}"
+            name="repeat"
+            value="${day}"
+            ${repeat ? `checked` : ``}
+          />
+          <label class="card__repeat-day" for="repeat-${day}"
+          >${day}</label
+          >`).join(``)}
+        </div>
+      </fieldset>` : ``}
+      `
+    );
+  };
 
-const createColorsTemplate = (currentColor) => {
-  return COLORS.map((color) => `<input
-      type="radio"
-      id="color-${color}"
-      class="card__color-input card__color-input--${color} visually-hidden"
-      name="color"
-      value="${color}"
-      ${currentColor === color ? `checked` : ``}
-    />
-    <label
-      for="color-${color}"
-      class="card__color card__color--${color}"
-    >${color}</label
-  >`).join(``);
-};
+  const createColorsTemplate = (currentColor) => {
+    return COLORS.map((color) => `<input
+        type="radio"
+        id="color-${color}"
+        class="card__color-input card__color-input--${color} visually-hidden"
+        name="color"
+        value="${color}"
+        ${currentColor === color ? `checked` : ``}
+      />
+      <label
+        for="color-${color}"
+        class="card__color card__color--${color}"
+      >${color}</label
+    >`).join(``);
+  };
 
 const createTaskEditTemplate = (data) => {
   const {dueDate, repeatingDays, color, description, isDueDate, isRepeating} = data;
@@ -81,7 +81,7 @@ const createTaskEditTemplate = (data) => {
     : ``;
 
   const repeatingClassName = isRepeating
-    ? `card-repeat`
+    ? `card--repeat`
     : ``;
 
   const dateTemplate = createDateTemplate(dueDate, isDueDate);
@@ -140,7 +140,7 @@ const createTaskEditTemplate = (data) => {
 };
 
 
-export default class TaskEdit extends Abstract {
+export default class TaskEdit extends SmartView {
   constructor(task = DEFAULT_TASK_BLANK) {
     super();
     this._data = TaskEdit.parseTaskToData(task);
@@ -157,37 +157,6 @@ export default class TaskEdit extends Abstract {
 
   get template() {
     return createTaskEditTemplate(this._data);
-  }
-
-  updateElement() {
-    let prevElement = this.element;
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.element;
-
-    parent.replaceChild(newElement, prevElement);
-    prevElement = null;
-
-    this.restoreHandlers();
-  }
-
-  updateData(updatedData, onlyUpdateData) {
-    if (!updatedData) {
-      return;
-    }
-
-    if (onlyUpdateData) {
-      return;
-    }
-
-    this._data = Object.assign(
-      {},
-      this._data,
-      updatedData
-    );
-
-    this.updateElement();
   }
 
   _formSubmitHandler(event) {
