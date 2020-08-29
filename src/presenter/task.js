@@ -2,9 +2,13 @@ import TaskEdit from "../view/task-edit.js";
 import Task from "../view/task.js";
 import { RenderPosition, render, replace, remove } from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`
+}
 
 export default class TaskPresenter {
-  constructor(taskListContainer, changeData) {
+  constructor(taskListContainer, changeData, changeMode) {
     this._taskListContainer = taskListContainer;
     this._taskChangeData = changeData;
 
@@ -15,6 +19,9 @@ export default class TaskPresenter {
     this._handleFormSubmitClick = this._handleFormSubmitClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleArchiveClick = this._handleArchiveClick.bind(this);
+
+    this._changeMode = changeMode;
+    this._mode = Mode.DEFAULT;
   }
 
   init(task) {
@@ -36,11 +43,11 @@ export default class TaskPresenter {
       return;
     }
 
-    if (this._taskListContainer.element.contains(prevTaskComponent.element)) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._taskComponent, prevTaskComponent);
     }
 
-    if (this._taskListContainer.element.contains(prevTaskEditComponent.element)) {
+    if (this._mode === Mode.EDITING) {
       replace(this._taskEditComponent, prevTaskEditComponent);
     }
 
@@ -48,12 +55,21 @@ export default class TaskPresenter {
     remove(prevTaskEditComponent);
   }
 
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replaceEditFormToCard();
+    }
+  }
+
   _replaceCardToEditForm() {
     replace(this._taskEditComponent, this._taskComponent);
+    this._changeMode();
+    this._mode = Mode.EDITING;
   }
 
   _replaceEditFormToCard() {
     replace(this._taskComponent, this._taskEditComponent);
+    this._mode = Mode.DEFAULT;
   }
 
   _handleEditClick() {
