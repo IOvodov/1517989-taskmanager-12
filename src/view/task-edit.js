@@ -24,17 +24,17 @@ const createDateTemplate = (dueDate, isDueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${dueDate ? localizeDueDate(dueDate) :  ``}"
+          value="${dueDate ? localizeDueDate(dueDate) : ``}"
         />
       </label>
     </fieldset>` : ``}
     `
-    );
-  };
+  );
+};
 
-  const createRepeatingDaysTemplate = (repeatingDays, isRepeatingDays) => {
-    return (
-      `<button class="card__repeat-toggle" type="button">
+const createRepeatingDaysTemplate = (repeatingDays, isRepeatingDays) => {
+  return (
+    `<button class="card__repeat-toggle" type="button">
         repeat:<span class="card__repeat-status">${isRepeatingDays ? `yes` : `no`}</span>
       </button>
 
@@ -53,12 +53,12 @@ const createDateTemplate = (dueDate, isDueDate) => {
           >`).join(``)}
         </div>
       </fieldset>` : ``}
-      `
-    );
-  };
+    `
+  );
+};
 
-  const createColorsTemplate = (currentColor) => {
-    return COLORS.map((color) => `<input
+const createColorsTemplate = (currentColor) => {
+  return COLORS.map((color) => `<input
         type="radio"
         id="color-${color}"
         class="card__color-input card__color-input--${color} visually-hidden"
@@ -71,7 +71,7 @@ const createDateTemplate = (dueDate, isDueDate) => {
         class="card__color card__color--${color}"
       >${color}</label
     >`).join(``);
-  };
+};
 
 const createTaskEditTemplate = (data) => {
   const {dueDate, repeatingDays, color, description, isDueDate, isRepeating} = data;
@@ -130,7 +130,7 @@ const createTaskEditTemplate = (data) => {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit" ${isSubmitDisabled ? 'disabled' : ``}>save</button>
+            <button class="card__save" type="submit" ${isSubmitDisabled ? `disabled` : ``}>save</button>
             <button class="card__delete" type="button">delete</button>
           </div>
         </div>
@@ -246,12 +246,12 @@ export default class TaskEdit extends SmartView {
 
   static parseTaskToData(task) {
     return Object.assign(
-      {},
-      task,
-      {
-        isDueDate: !!task.dueDate,
-        isRepeating: isTaskRepeating(task.repeatingDays)
-      }
+        {},
+        task,
+        {
+          isDueDate: !!task.dueDate,
+          isRepeating: isTaskRepeating(task.repeatingDays)
+        }
     );
   }
 

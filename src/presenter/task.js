@@ -1,11 +1,11 @@
 import TaskEdit from "../view/task-edit.js";
 import Task from "../view/task.js";
-import { RenderPosition, render, replace, remove } from "../utils/render.js";
+import {RenderPosition, render, replace, remove} from "../utils/render.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`
-}
+};
 
 export default class TaskPresenter {
   constructor(taskListContainer, changeData, changeMode) {
@@ -77,31 +77,31 @@ export default class TaskPresenter {
   }
 
   _handleFormSubmitClick(task) {
-    this._taskChangeData(task)
+    this._taskChangeData(task);
     this._replaceEditFormToCard();
   }
 
   _handleFavoriteClick() {
     this._taskChangeData(
-      Object.assign(
-        {},
-        this._task,
-        {
-          isFavorite: !this._task.isFavorite
-        }
-      )
+        Object.assign(
+            {},
+            this._task,
+            {
+              isFavorite: !this._task.isFavorite
+            }
+        )
     );
   }
 
   _handleArchiveClick() {
     this._taskChangeData(
-      Object.assign(
-        {},
-        this._task,
-        {
-          isArchive: !this._task.isArchive
-        }
-      )
+        Object.assign(
+            {},
+            this._task,
+            {
+              isArchive: !this._task.isArchive
+            }
+        )
     );
   }
 }

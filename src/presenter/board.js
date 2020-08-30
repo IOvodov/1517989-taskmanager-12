@@ -2,8 +2,8 @@ import Sort from "../view/sorting";
 import Board from "../view/board.js";
 import TaskList from "../view/task-list";
 import LoadMoreButton from "../view/load-more-button";
-import { render, RenderPosition, remove } from "../utils/render.js";
-import { updateItem } from "../utils/common.js";
+import {render, RenderPosition, remove} from "../utils/render.js";
+import {updateItem} from "../utils/common.js";
 import TaskPresenter from "./task.js";
 
 const TASKS_COUNT_PER_STEP = 8;
