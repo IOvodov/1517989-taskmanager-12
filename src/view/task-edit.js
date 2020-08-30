@@ -143,6 +143,7 @@ const createTaskEditTemplate = (data) => {
 export default class TaskEdit extends SmartView {
   constructor(task = DEFAULT_TASK_BLANK) {
     super();
+
     this._data = TaskEdit.parseTaskToData(task);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
@@ -161,12 +162,22 @@ export default class TaskEdit extends SmartView {
 
   _formSubmitHandler(event) {
     event.preventDefault();
-    this._callback.submit(TaskEdit.parseDataToTask(this._data));
+    this._handlers.submit(TaskEdit.parseDataToTask(this._data));
   }
 
   setFormSubmitHandler(callback) {
-    this._callback.submit = callback;
-    this.element.querySelector(`.card__form`).addEventListener(`submit`, this._formSubmitHandler);
+    const formSubmitElement = this.element.querySelector(`.card__form`);
+
+    this._handlers.submit = callback;
+    formSubmitElement.addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  removeElement() {
+    const formSubmitElement = this.element.querySelector(`.card__form`);
+
+    formSubmitElement.removeEventListener(`submit`, this._formSubmitHandler);
+
+    super.removeElement();
   }
 
   _dueDateToggleHandler(event) {
@@ -230,7 +241,7 @@ export default class TaskEdit extends SmartView {
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this.setFormSubmitHandler(this._callback.submit);
+    this.setFormSubmitHandler(this._handlers.submit);
   }
 
   static parseTaskToData(task) {

@@ -1,6 +1,6 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
-export default class TaskList extends Abstract {
+export default class TaskList extends AbstractView {
   get template() {
     return (
       `<div class="board__tasks"></div>`

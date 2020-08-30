@@ -1,5 +1,5 @@
 import {isTaskExpired, isTaskRepeating, localizeDueDate} from "../utils/task.js";
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createTaskTemplate = (task) => {
   const {color, description, dueDate, repeatingDays, isFavorite, isArchive} = task;
@@ -70,10 +70,11 @@ const createTaskTemplate = (task) => {
   );
 };
 
-export default class Task extends Abstract {
+export default class Task extends AbstractView {
   constructor(task) {
     super();
     this._task = task;
+    this._editTaskElement = this.element.querySelector(`.card__btn--edit`);
 
     this._favoriteBtn = this.element.querySelector(`.card__btn--favorites`);
     this._archiveBtn = this.element.querySelector(`.card__btn--archive`);
@@ -89,31 +90,37 @@ export default class Task extends Abstract {
 
   _editClickHandler(event) {
     event.preventDefault();
-    this._callback.editClick();
+    this._handlers.editClick();
   }
 
   setEditClickHandler(callback) {
-    this._callback.editClick = callback;
-    this.element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._editClickHandler);
+    this._handlers.editClick = callback;
+    this._editTaskElement.addEventListener(`click`, this._editClickHandler);
+  }
+
+  removeElement() {
+    this._editTaskElement.removeEventListener(`click`, this._editClickHandler);
+
+    super.removeElement();
   }
 
   _favoriteBtnClickHandler(event) {
     event.preventDefault();
-    this._callback.favoriteBtnClick();
+    this._handlers.favoriteBtnClick();
   }
 
   setFavoriteBtnClickHandler(callback) {
-    this._callback.favoriteBtnClick = callback;
+    this._handlers.favoriteBtnClick = callback;
     this._favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
   }
 
   _archiveBtnClickHandler(event) {
     event.preventDefault();
-    this._callback.archiveBtnClick();
+    this._handlers.archiveBtnClick();
   }
 
   setArchiveBtnClickHandler(callback) {
-    this._callback.archiveBtnClick = callback;
+    this._handlers.archiveBtnClick = callback;
     this._archiveBtn.addEventListener(`click`, this._archiveBtnClickHandler);
   }
 }

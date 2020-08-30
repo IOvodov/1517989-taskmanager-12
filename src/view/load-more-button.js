@@ -1,6 +1,6 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
-export default class LoadMoreButton extends Abstract {
+export default class LoadMoreButton extends AbstractView {
   constructor() {
     super();
 
@@ -15,11 +15,17 @@ export default class LoadMoreButton extends Abstract {
 
   _clickHandler(event) {
     event.preventDefault();
-    this._callback.click();
+    this._handlers.click();
   }
 
   setClickHandler(callback) {
-    this._callback.click = callback;
+    this._handlers.click = callback;
     this.element.addEventListener(`click`, this._clickHandler);
+  }
+
+  removeElement() {
+    this.element.removeEventListener(`click`, this._clickHandler);
+
+    super.removeElement();
   }
 }
