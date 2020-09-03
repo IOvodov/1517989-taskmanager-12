@@ -56,12 +56,22 @@ export default class BoardPresenter {
       replace(taskComponent, taskEditComponent);
     };
 
+    const onEscKeyDown = (event) => {
+      if (event.key === `Escape` || event.key === `Esc`) {
+        event.preventDefault();
+        replaceEditFormToCard();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
     taskComponent.setEditClickHandler(() => {
       replaceCardToEditForm();
+      document.addEventListener(`keydown`, onEscKeyDown);
     });
 
     taskEditComponent.setFormSubmitHandler(() => {
       replaceEditFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
     });
 
     render(this._taskListComponent, taskComponent, RenderPosition.BEFOREEND);
