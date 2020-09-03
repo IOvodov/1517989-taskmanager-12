@@ -4,6 +4,7 @@ import TaskList from "../view/task-list";
 import Task from "../view/task.js";
 import TaskEdit from "../view/task-edit.js";
 import LoadMoreButton from "../view/load-more-button";
+import NoTask from "../view/no-task";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 
 const TASKS_COUNT_PER_STEP = 8;
@@ -17,6 +18,7 @@ export default class BoardPresenter {
     this._sortComponent = new Sort();
     this._taskListComponent = new TaskList();
     this._loadMoreButtonComponent = new LoadMoreButton();
+    this._noTaskComponent = new NoTask();
 
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
@@ -31,6 +33,11 @@ export default class BoardPresenter {
   }
 
   _renderBoard() {
+    if (this._boardTasks.every((task) => task.isArchive)) {
+      this._renderNoTasks();
+      return;
+    }
+
     this._renderSort();
 
     this._renderTasks(0, Math.min(this._boardTasks.length, TASKS_COUNT_PER_STEP));
@@ -42,6 +49,10 @@ export default class BoardPresenter {
 
   _renderSort() {
     render(this._boardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+  }
+
+  _renderNoTasks() {
+    render(this._boardComponent, this._noTaskComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderTask(task) {
